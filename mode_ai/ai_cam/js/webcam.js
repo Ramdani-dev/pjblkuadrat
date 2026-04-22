@@ -1,12 +1,12 @@
-class WebcamManager {
+class WebcamHandler {
     constructor(videoElement) {
         this.video = videoElement;
         this.stream = null;
-        this.isActive = false;
+        this.isRunning = false;
     }
 
     async start() {
-        if (this.isActive) {
+        if (this.isRunning) {
             return true;
         }
 
@@ -22,15 +22,15 @@ class WebcamManager {
 
             this.video.srcObject = this.stream;
             await this.video.play();
-            this.isActive = true;
+            this.isRunning = true;
             return true;
-        } catch (errorMsg) {
-            if (errorMsg.name === 'NotAllowedError') {
+        } catch (error) {
+            if (error.name === 'NotAllowedError') {
                 throw new Error('Izin kamera ditolak. Silakan izinkan akses kamera.');
-            } else if (errorMsg.name === 'NotFoundError') {
+            } else if (error.name === 'NotFoundError') {
                 throw new Error('Kamera tidak ditemukan. Pastikan webcam terhubung.');
             } else {
-                throw new Error('Gagal mengakses webcam: ' + errorMsg.message);
+                throw new Error('Gagal mengakses webcam: ' + error.message);
             }
         }
     }
@@ -44,11 +44,11 @@ class WebcamManager {
         }
 
         this.video.srcObject = null;
-        this.isActive = false;
+        this.isRunning = false;
     }
 
     captureFrame(canvas) {
-        if (!this.isActive) {
+        if (!this.isRunning) {
             return null;
         }
 
@@ -64,7 +64,7 @@ class WebcamManager {
         return canvas;
     }
 
-    getSize() {
+    getDimensions() {
         return {
             width: this.video.videoWidth,
             height: this.video.videoHeight
@@ -72,4 +72,4 @@ class WebcamManager {
     }
 }
 
-window.WebcamManager = WebcamManager;
+window.WebcamHandler = WebcamHandler;

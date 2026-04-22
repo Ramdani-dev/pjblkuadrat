@@ -1,55 +1,54 @@
 class GestureModel {
     constructor() {
-        this.engine = null;
-        this.labelList = [];
-        this.isModelReady = false;
+        this.model = null;
+        this.labels = [];
+        this.isBuilt = false;
     }
 
-    async loadData(folderPath) {
-        this.engine = await tf.loadLayersModel(folderPath + '/model.json');
+    async loadModel(folderPath) {
+        this.model = await tf.loadLayersModel(folderPath + '/model.json');
 
-        const RESPONSE = await fetch(folderPath + '/metadata.json');
-        const META_DATA = await RESPONSE.json();
+        const response = await fetch(folderPath + '/metadata.json');
+        const meta = await response.json();
 
-        this.labelList = META_DATA.labels;
+        this.labels = meta.labels;
 
-        this.engine.compile({
+        this.model.compile({
             optimizer: tf.train.adam(0.001),
             loss: 'categoricalCrossentropy',
             metrics: ['accuracy']
         });
 
-        this.isModelReady = true;
+        this.isBuilt = true;
     }
 
-    async predict(handPoints) {
-        if (!this.isModelReady || handPoints?.length !== 42) return null;
+    async predict(landmarks) {
+        if (!this.isBuilt || landmarks?.length !== 42) return null;
 
-        const INPUT_DATA = tf.tensor2d([handPoints]);
+        const input = tf.tensor2d([landmarks]);
         try {
-            const PREDICTION = this.engine.predict(INPUT_DATA);
-            const PROBABILITIES = await PREDICTION.data();
-            PREDICTION.dispose();
+            const prediction = this.model.predict(input);
+            const probs = await prediction.data();
+            prediction.dispose();
 
-            let highestScore = 0;
-            let highestIndex = 0;
-            for (let i = 0; i < PROBABILITIES.length; i++) {
-                if (PROBABILITIES[i] > highestScore) {
-                    highestScore = PROBABILITIES[i];
-                    highestIndex = i;
+            let maxProb = 0, maxIdx = 0;
+            for (let i = 0; i < probs.length; i++) {
+                if (probs[i] > maxProb) {
+                    maxProb = probs[i];
+                    maxIdx = i;
                 }
             }
 
             return {
-                label: this.labelList[highestIndex],
-                confidence: highestScore,
-                allProbabilities: this.labelList.map((labelName, index) => ({
-                    label: labelName,
-                    percentage: PROBABILITIES[index]
+                label: this.labels[maxIdx],
+                confidence: maxProb,
+                probabilities: this.labels.map((l, i) => ({
+                    label: l,
+                    probability: probs[i]
                 }))
             };
         } finally {
-            INPUT_DATA.dispose();
+            input.dispose();
         }
     }
 }

@@ -8,14 +8,12 @@
   const buttonBackMenu = document.getElementById('button-back-menu');
   const buttonBackFromSub = document.getElementById('button-back-from-sub');
 
-  // Sub-selection screen elements
   const subSelectTitle = document.getElementById('sub-select-title');
   const subSelectDesc = document.getElementById('sub-select-desc');
   const subCardBiasa = document.getElementById('sub-card-biasa');
   const subCardAI = document.getElementById('sub-card-ai');
 
-  // Simpan mode yang dipilih (kamera atau biasa) untuk navigasi sub-selection
-  let selectedMode = null; // 'kamera' atau 'biasa'
+  let selectedMode = null;
 
   function showScreen(screenId) {
     SCREENS.forEach(function (screenElement) {
@@ -36,7 +34,6 @@
   if (buttonBackMenu) buttonBackMenu.addEventListener('click', function () { showScreen('menu-screen'); });
   if (buttonBackFromSub) buttonBackFromSub.addEventListener('click', function () { showScreen('menu-screen'); });
 
-  // Mode Kamera → Sub-selection
   const btnModeCam = document.getElementById('card-mode-cam');
   if (btnModeCam) btnModeCam.addEventListener('click', function () {
     selectedMode = 'kamera';
@@ -45,16 +42,14 @@
     showScreen('sub-select-screen');
   });
 
-  // Mode Biasa → Sub-selection
   const btnModeBiasa = document.getElementById('card-mode-biasa');
   if (btnModeBiasa) btnModeBiasa.addEventListener('click', function () {
     selectedMode = 'biasa';
-    if (subSelectTitle) subSelectTitle.textContent = 'Mode Biasa';
-    if (subSelectDesc) subSelectDesc.textContent = 'Pilih tingkat kesulitan untuk mode biasa';
+    if (subSelectTitle) subSelectTitle.textContent = 'Mode Classic';
+    if (subSelectDesc) subSelectDesc.textContent = 'Pilih tingkat kesulitan untuk mode Classic';
     showScreen('sub-select-screen');
   });
 
-  // Sub-selection: Mode Biasa (random AI)
   if (subCardBiasa) subCardBiasa.addEventListener('click', function () {
     if (selectedMode === 'kamera') {
       window.location.href = '/kamera';
@@ -63,7 +58,6 @@
     }
   });
 
-  // Sub-selection: Mode AI (LSTM)
   const aiWarningModal = document.getElementById('ai-warning-modal');
   const aiWarnCancel = document.getElementById('ai-warn-cancel');
   const aiWarnContinue = document.getElementById('ai-warn-continue');
@@ -72,7 +66,6 @@
     if (aiWarningModal) {
       aiWarningModal.classList.remove('hidden');
     } else {
-      // Fallback kalo modal gak ada
       if (selectedMode === 'kamera') window.location.href = '/kamera-ai';
       else window.location.href = '/suit-ai';
     }

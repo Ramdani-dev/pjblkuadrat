@@ -1,8 +1,8 @@
-class HandTracker {
+class HandDetector {
     constructor() {
         this.hands = null;
-        this.isModelReady = false;
-        this.lastResult = null;
+        this.isReady = false;
+        this.lastResults = null;
     }
 
     async initialize() {
@@ -20,50 +20,59 @@ class HandTracker {
                     minTrackingConfidence: 0.5
                 });
 
-                this.hands.onResults((detectionResult) => {
-                    this.lastResult = detectionResult;
+                this.hands.onResults((results) => {
+                    this.lastResults = results;
                 });
 
-                const TEST_CANVAS = document.createElement('canvas');
-                TEST_CANVAS.width = 10;
-                TEST_CANVAS.height = 10;
+                const testCanvas = document.createElement('canvas');
+                testCanvas.width = 10;
+                testCanvas.height = 10;
 
-                this.hands.send({ image: TEST_CANVAS }).then(() => {
-                    this.isModelReady = true;
+                this.hands.send({ image: testCanvas }).then(() => {
+                    this.isReady = true;
                     resolve();
                 });
-            } catch (errorMsg) {
-                reject(errorMsg);
+            } catch (error) {
+                reject(error);
             }
         });
     }
 
-    async track(videoElement) {
-        if (!this.isModelReady) throw new Error('Sistem belum siap');
+    async detect(videoElement) {
+        if (!this.isReady) throw new Error('Sistem belum siap');
         await this.hands.send({ image: videoElement });
-        return this.lastResult;
+        return this.lastResults;
     }
 
-    extractLandmarks(trackingResult) {
-        if (!trackingResult?.multiHandLandmarks?.length) return null;
+    extractLandmarks(results) {
+        if (!results?.multiHandLandmarks?.length) return null;
         
-        const HAND_POINTS = trackingResult.multiHandLandmarks[0];
-        const FLAT_DATA = [];
-        for (const dot of HAND_POINTS) {
-            FLAT_DATA.push(dot.x, dot.y);
+        const landmarks = results.multiHandLandmarks[0];
+        
+        const wristX = landmarks[0].x;
+        const wristY = landmarks[0].y;
+
+        const mfX = landmarks[9].x - wristX;
+        const mfY = landmarks[9].y - wristY;
+        const scale = Math.sqrt(mfX * mfX + mfY * mfY);
+
+        if (scale < 0.001) return null;
+
+        const flat = [];
+        for (const point of landmarks) {
+            flat.push((point.x - wristX) / scale, (point.y - wristY) / scale);
         }
-        return FLAT_DATA;
+        return flat;
     }
 
-    drawLandmarks(canvas, trackingResult, lineColor = '#00F0FF') {
+    drawLandmarks(canvas, results, color = '#00F0FF') {
         const ctx = canvas.getContext('2d');
-        if (!trackingResult?.multiHandLandmarks?.length) return;
+        if (!results?.multiHandLandmarks?.length) return;
 
-        const HAND_POINTS = trackingResult.multiHandLandmarks[0];
-        const CANVAS_WIDTH = canvas.width;
-        const CANVAS_HEIGHT = canvas.height;
+        const landmarks = results.multiHandLandmarks[0];
+        const { width, height } = canvas;
 
-        const FINGER_CONNECTIONS = [
+        const connections = [
             [0,1],[1,2],[2,3],[3,4],
             [0,5],[5,6],[6,7],[7,8],
             [0,9],[9,10],[10,11],[11,12],
@@ -72,26 +81,26 @@ class HandTracker {
             [5,9],[9,13],[13,17]
         ];
 
-        ctx.strokeStyle = lineColor;
+        ctx.strokeStyle = color;
         ctx.lineWidth = 3;
-        for (const [start, end] of FINGER_CONNECTIONS) {
-            const X1 = (1 - HAND_POINTS[start].x) * CANVAS_WIDTH;
-            const Y1 = HAND_POINTS[start].y * CANVAS_HEIGHT;
-            const X2 = (1 - HAND_POINTS[end].x) * CANVAS_WIDTH;
-            const Y2 = HAND_POINTS[end].y * CANVAS_HEIGHT;
+        for (const [s, e] of connections) {
+            const x1 = (1 - landmarks[s].x) * width;
+            const y1 = landmarks[s].y * height;
+            const x2 = (1 - landmarks[e].x) * width;
+            const y2 = landmarks[e].y * height;
             ctx.beginPath();
-            ctx.moveTo(X1, Y1);
-            ctx.lineTo(X2, Y2);
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
             ctx.stroke();
         }
 
         ctx.fillStyle = '#fff';
-        for (const p of HAND_POINTS) {
+        for (const p of landmarks) {
             ctx.beginPath();
-            ctx.arc((1 - p.x) * CANVAS_WIDTH, p.y * CANVAS_HEIGHT, 5, 0, 2 * Math.PI);
+            ctx.arc((1 - p.x) * width, p.y * height, 5, 0, 2 * Math.PI);
             ctx.fill();
         }
     }
 }
 
-window.HandTracker = HandTracker;
+window.HandDetector = HandDetector;

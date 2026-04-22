@@ -46,11 +46,12 @@ function predict(MODEL, recentMoves) {
     const prediction = MODEL.predict(input);
 
     const output = prediction.argMax(-1).dataSync()[0];
-    const choices = ['rock', 'paper', 'scissors'];
-    const opponentChoice = choices[output];
-    const aiChoice = choices[(output + 1) % 3];
-    return "AI choice: " + aiChoice + " | Predicted opponent choice: " + opponentChoice;
-};
+    const pilihan = ['batu', 'kertas', 'gunting'];
+    const pilihanLawan = pilihan[output];
+    const pilihanAI = pilihan[(output + 1) % 3];
+    return "pilihan ai adalah : " + pilihanAI + " dan prediksi pilihan lawan adalah : " + pilihanLawan;
 
+
+};
 const finalModel = await train();
-const result = predict(finalModel, [0, 1, 0, 2, 1]);
+const hasil = predict(finalModel, [0, 1, 0, 2, 1]);

@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <base href="/mode_ai/ai_biasa/">
-    <title>Mode Biasa AI - SUIT GAME SUPREME</title>
+    <title>Mode Classic AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -24,17 +24,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-gray-50 text-slate-800 font-sans w-screen h-screen overflow-hidden antialiased">
 
-    <!-- Subtle Background -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-sky-50"></div>
         <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-200/25 rounded-full blur-[120px]"></div>
         <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sky-200/20 rounded-full blur-[120px]"></div>
     </div>
 
-    <!-- Orientation Lock -->
     <div id="lock-screen" class="hidden fixed inset-0 z-[9999] bg-white/95 backdrop-blur-xl flex-col items-center justify-center gap-6 p-8 text-center">
         <div class="w-20 h-20 animate-rotate-phone">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full stroke-primary-600 fill-none stroke-[1.5]">
@@ -51,97 +50,90 @@
         <p class="text-sm text-slate-500 max-w-xs">Game ini memerlukan tampilan landscape.</p>
     </div>
 
-    <!-- ===== GAME ARENA ===== -->
     <div id="screen-normal" class="screen screen-active" style="opacity:1;pointer-events:all;">
         <div class="w-full h-full grid grid-rows-[auto_1fr_auto] z-10">
 
-            <!-- Header -->
-            <div class="flex items-center justify-between px-6 sm:px-10 py-4 bg-white/70 backdrop-blur-md border-b border-gray-200/60">
+            <div class="flex items-center justify-between px-3 sm:px-6 lg:px-10 py-2 sm:py-3 lg:py-4 bg-white/70 backdrop-blur-md border-b border-gray-200/60">
                 <div class="flex items-center gap-2">
-                    <div class="font-bold text-sm sm:text-base text-primary-700 tracking-wide">Mode Biasa</div>
-                    <span class="px-2 py-0.5 bg-gradient-to-r from-blue-500 to-sky-500 rounded-full text-[0.6rem] text-white font-bold tracking-wider">🤖 AI</span>
+                    <div class="font-bold text-xs sm:text-sm lg:text-base text-primary-700 tracking-wide">Mode Classic</div>
+                    <span class="px-1.5 sm:px-2 py-0.5 bg-gradient-to-r from-blue-500 to-sky-500 rounded-full text-[0.55rem] sm:text-[0.6rem] text-white font-bold tracking-wider flex items-center gap-1"><i data-lucide="bot" class="w-3 h-3"></i> AI</span>
                 </div>
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 sm:gap-4">
                     <div class="text-center">
-                        <span class="font-extrabold text-2xl text-slate-800" id="score-player">0</span>
-                        <span class="text-[0.65rem] text-slate-500 block font-medium">KAMU</span>
+                        <span class="font-extrabold text-xl sm:text-2xl text-slate-800" id="score-player">0</span>
+                        <span class="text-[0.55rem] sm:text-[0.65rem] text-slate-500 block font-medium">KAMU</span>
                     </div>
                     <span class="text-xs font-bold text-primary-400">VS</span>
                     <div class="text-center">
-                        <span class="font-extrabold text-2xl text-slate-800" id="score-system">0</span>
-                        <span class="text-[0.65rem] text-slate-500 block font-medium">SISTEM</span>
+                        <span class="font-extrabold text-xl sm:text-2xl text-slate-800" id="score-system">0</span>
+                        <span class="text-[0.55rem] sm:text-[0.65rem] text-slate-500 block font-medium">SISTEM</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Game Area -->
-            <div class="game-arena grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] items-center gap-6 sm:gap-10 p-6 sm:p-10 min-h-0 overflow-auto">
+            <div class="game-arena grid items-center gap-4 sm:gap-6 lg:gap-10 p-3 sm:p-6 lg:p-10 min-h-0 overflow-auto">
 
-                <!-- Choice Cards -->
-                <div class="flex flex-row lg:flex-col gap-3 items-center justify-center flex-wrap">
-                    <!-- Rock -->
-                    <div class="choice-card group flex items-center gap-3 w-full max-w-[220px] p-4 bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-2xl cursor-pointer shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-primary-400 hover:border-solid hover:-translate-y-0.5 transition-all duration-300" data-choice="rock" id="choose-rock">
-                        <div class="w-11 h-11 flex items-center justify-center text-2xl bg-primary-50 rounded-xl shrink-0">✊</div>
+                <div class="choices-col flex flex-row sm:flex-row lg:flex-col gap-2 sm:gap-3 items-center justify-center flex-wrap">
+
+                    <div class="choice-card group flex items-center gap-2 sm:gap-3 w-full max-w-[200px] sm:max-w-[220px] p-2.5 sm:p-4 bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-xl sm:rounded-2xl cursor-pointer shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-primary-400 hover:border-solid hover:-translate-y-0.5 transition-all duration-300" data-choice="batu" id="choose-batu">
+                        <div class="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center bg-primary-50 rounded-lg sm:rounded-xl shrink-0"><svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="blue"><path d="M 16 6 C 14.9375 6 14.003906 6.5625 13.46875 7.40625 C 13.03125 7.15625 12.535156 7 12 7 C 10.355469 7 9 8.355469 9 10 L 9 13.65625 L 8.875 13.8125 C 8.800781 13.898438 8.730469 13.976563 8.65625 14.0625 C 8.144531 14.660156 7.65625 15.292969 7.21875 15.9375 L 6.90625 16.34375 C 6.480469 16.894531 6.21875 17.535156 6.09375 18.1875 C 6.078125 18.261719 6.042969 18.332031 6.03125 18.40625 C 5.855469 19.652344 6.226563 20.949219 7.09375 21.9375 L 9.46875 24.625 C 10.796875 26.136719 12.707031 27 14.71875 27 L 20 27 C 23.855469 27 27 23.855469 27 20 L 27 11 C 27 9.355469 25.644531 8 24 8 C 23.464844 8 22.96875 8.15625 22.53125 8.40625 C 21.996094 7.5625 21.0625 7 20 7 C 19.464844 7 18.96875 7.15625 18.53125 7.40625 C 17.996094 6.5625 17.0625 6 16 6 Z M 16 8 C 16.566406 8 17 8.433594 17 9 L 17 11.1875 C 16.683594 11.074219 16.351563 11 16 11 L 15 11 L 15 9 C 15 8.433594 15.433594 8 16 8 Z M 12 9 C 12.566406 9 13 9.433594 13 10 L 13 11 L 11.59375 11 L 11.3125 11.28125 C 11.3125 11.28125 11.085938 11.511719 11 11.59375 L 11 10 C 11 9.433594 11.433594 9 12 9 Z M 20 9 C 20.566406 9 21 9.433594 21 10 L 21 13 C 21 13.566406 20.566406 14 20 14 C 19.433594 14 19 13.566406 19 13 L 19 10 C 19 9.433594 19.433594 9 20 9 Z M 24 10 C 24.566406 10 25 10.433594 25 11 L 25 13 C 25 13.566406 24.566406 14 24 14 C 23.433594 14 23 13.566406 23 13 L 23 11 C 23 10.433594 23.433594 10 24 10 Z M 12.4375 13 L 16 13 C 16.5625 13 17 13.4375 17 14 C 17 14.5625 16.5625 15 16 15 L 12.875 15 L 12.59375 15.375 L 10.25 18.34375 L 11.8125 19.59375 L 13.65625 17.28125 C 14.015625 17.449219 14.425781 17.699219 14.875 18.0625 C 15.941406 18.929688 17 20.347656 17 23 L 19 23 C 19 20.132813 17.855469 18.15625 16.59375 16.9375 C 17.402344 16.769531 18.101563 16.273438 18.53125 15.59375 C 18.96875 15.84375 19.464844 16 20 16 C 20.765625 16 21.46875 15.699219 22 15.21875 C 22.53125 15.699219 23.234375 16 24 16 C 24.351563 16 24.683594 15.925781 25 15.8125 L 25 20 C 25 22.773438 22.773438 25 20 25 L 14.71875 25 C 13.28125 25 11.917969 24.394531 10.96875 23.3125 L 8.59375 20.59375 C 8.164063 20.105469 7.964844 19.507813 8 18.90625 C 8 18.898438 8.027344 18.832031 8.03125 18.8125 C 8.035156 18.78125 8.027344 18.75 8.03125 18.71875 C 8.078125 18.5 8.230469 18.078125 8.5625 17.53125 C 8.605469 17.460938 8.671875 17.382813 8.71875 17.3125 L 10.1875 15.375 C 11.292969 14.082031 12.214844 13.210938 12.4375 13 Z"/></svg></div>
                         <div>
-                            <div class="font-bold text-sm text-slate-800">Batu</div>
-                            <div class="text-xs text-slate-400 mt-0.5">Rock</div>
+                            <div class="font-bold text-xs sm:text-sm text-slate-800">Batu</div>
+                            <div class="text-[0.65rem] sm:text-xs text-slate-400 mt-0.5">Rock</div>
                         </div>
                     </div>
-                    <!-- Scissors -->
-                    <div class="choice-card group flex items-center gap-3 w-full max-w-[220px] p-4 bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-2xl cursor-pointer shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-primary-400 hover:border-solid hover:-translate-y-0.5 transition-all duration-300" data-choice="scissors" id="choose-scissors">
-                        <div class="w-11 h-11 flex items-center justify-center text-2xl bg-amber-50 rounded-xl shrink-0">✌️</div>
+                    <div class="choice-card group flex items-center gap-2 sm:gap-3 w-full max-w-[200px] sm:max-w-[220px] p-2.5 sm:p-4 bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-xl sm:rounded-2xl cursor-pointer shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-primary-400 hover:border-solid hover:-translate-y-0.5 transition-all duration-300" data-choice="gunting" id="choose-gunting">
+                        <div class="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center bg-amber-50 rounded-lg sm:rounded-xl shrink-0"><i data-lucide="scissors" class="w-5 h-5 sm:w-6 sm:h-6 text-amber-600"></i></div>
                         <div>
-                            <div class="font-bold text-sm text-slate-800">Gunting</div>
-                            <div class="text-xs text-slate-400 mt-0.5">Scissors</div>
+                            <div class="font-bold text-xs sm:text-sm text-slate-800">Gunting</div>
+                            <div class="text-[0.65rem] sm:text-xs text-slate-400 mt-0.5">Scissors</div>
                         </div>
                     </div>
-                    <!-- Paper -->
-                    <div class="choice-card group flex items-center gap-3 w-full max-w-[220px] p-4 bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-2xl cursor-pointer shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-primary-400 hover:border-solid hover:-translate-y-0.5 transition-all duration-300" data-choice="paper" id="choose-paper">
-                        <div class="w-11 h-11 flex items-center justify-center text-2xl bg-emerald-50 rounded-xl shrink-0">✋</div>
+                    <div class="choice-card group flex items-center gap-2 sm:gap-3 w-full max-w-[200px] sm:max-w-[220px] p-2.5 sm:p-4 bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-xl sm:rounded-2xl cursor-pointer shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-primary-400 hover:border-solid hover:-translate-y-0.5 transition-all duration-300" data-choice="kertas" id="choose-kertas">
+                        <div class="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center bg-emerald-50 rounded-lg sm:rounded-xl shrink-0"><i data-lucide="hand" class="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600"></i></div>
                         <div>
-                            <div class="font-bold text-sm text-slate-800">Kertas</div>
-                            <div class="text-xs text-slate-400 mt-0.5">Paper</div>
+                            <div class="font-bold text-xs sm:text-sm text-slate-800">Kertas</div>
+                            <div class="text-[0.65rem] sm:text-xs text-slate-400 mt-0.5">Paper</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- VS Center -->
-                <div class="flex flex-col items-center justify-center gap-4">
-                    <div>
-                        <div class="display-box w-20 h-20 flex items-center justify-center rounded-2xl border-2 border-dashed border-blue-200 bg-white/80 backdrop-blur-sm text-4xl shadow-sm transition-all duration-500" id="display-player">—</div>
-                        <div class="text-xs text-slate-400 font-medium text-center mt-2">KAMU</div>
+                <div class="vs-col flex flex-row sm:flex-col items-center justify-center gap-3 sm:gap-4">
+                    <div class="flex flex-row sm:flex-col items-center gap-2 sm:gap-0">
+                        <div>
+                            <div class="display-box w-14 h-14 sm:w-20 sm:h-20 flex items-center justify-center rounded-xl sm:rounded-2xl border-2 border-dashed border-blue-200 bg-white/80 backdrop-blur-sm text-2xl sm:text-4xl shadow-sm transition-all duration-500" id="display-player">—</div>
+                            <div class="text-[0.6rem] sm:text-xs text-slate-400 font-medium text-center mt-1 sm:mt-2">KAMU</div>
+                        </div>
+
+                        <div class="font-extrabold text-lg sm:text-xl text-primary-400 tracking-widest relative px-4 sm:px-8">
+                            VS
+                            <div class="hidden sm:block absolute left-0 top-1/2 -translate-y-1/2 w-5 h-px bg-gradient-to-r from-transparent to-primary-300"></div>
+                            <div class="hidden sm:block absolute right-0 top-1/2 -translate-y-1/2 w-5 h-px bg-gradient-to-l from-transparent to-primary-300"></div>
+                        </div>
+
+                        <div>
+                            <div class="display-box w-14 h-14 sm:w-20 sm:h-20 flex items-center justify-center rounded-xl sm:rounded-2xl border-2 border-dashed border-blue-200 bg-white/80 backdrop-blur-sm text-2xl sm:text-4xl shadow-sm transition-all duration-500" id="display-opponent"><i data-lucide="help-circle" class="w-6 h-6 sm:w-8 sm:h-8 text-slate-400"></i></div>
+                            <div class="text-[0.6rem] sm:text-xs text-slate-400 font-medium text-center mt-1 sm:mt-2">SISTEM</div>
+                        </div>
                     </div>
 
-                    <div class="font-extrabold text-xl text-primary-400 tracking-widest relative px-8">
-                        VS
-                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-px bg-gradient-to-r from-transparent to-primary-300"></div>
-                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-px bg-gradient-to-l from-transparent to-primary-300"></div>
-                    </div>
-
-                    <div>
-                        <div class="display-box w-20 h-20 flex items-center justify-center rounded-2xl border-2 border-dashed border-blue-200 bg-white/80 backdrop-blur-sm text-4xl shadow-sm transition-all duration-500" id="display-opponent">❓</div>
-                        <div class="text-xs text-slate-400 font-medium text-center mt-2">SISTEM</div>
-                    </div>
-
-                    <div class="text-center min-h-[2rem] flex items-center">
-                        <div class="result-text font-extrabold text-base tracking-wide" id="final-result"></div>
+                    <div class="text-center min-h-[1.8rem] flex items-center">
+                        <div class="result-text font-extrabold text-sm sm:text-base tracking-wide" id="final-result"></div>
                     </div>
                 </div>
 
-                <!-- Stats -->
-                <div class="flex flex-col items-center justify-center gap-3">
-                    <div class="bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-2xl p-5 shadow-sm space-y-3">
-                        <div class="text-xs text-slate-500 font-medium">Menang <span id="stat-win" class="inline-block ml-2 font-bold text-emerald-500 text-sm">0</span></div>
-                        <div class="text-xs text-slate-500 font-medium">Kalah <span id="stat-lose" class="inline-block ml-2 font-bold text-rose-500 text-sm">0</span></div>
-                        <div class="text-xs text-slate-500 font-medium">Seri <span id="stat-draw" class="inline-block ml-2 font-bold text-primary-500 text-sm">0</span></div>
+                <div class="stats-col flex flex-col items-center justify-center gap-2 sm:gap-3">
+                    <div class="bg-white/80 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-xl sm:rounded-2xl p-3 sm:p-5 shadow-sm space-y-1.5 sm:space-y-3">
+                        <div class="text-[0.65rem] sm:text-xs text-slate-500 font-medium">Menang <span id="stat-win" class="inline-block ml-2 font-bold text-emerald-500 text-xs sm:text-sm">0</span></div>
+                        <div class="text-[0.65rem] sm:text-xs text-slate-500 font-medium">Kalah <span id="stat-lose" class="inline-block ml-2 font-bold text-rose-500 text-xs sm:text-sm">0</span></div>
+                        <div class="text-[0.65rem] sm:text-xs text-slate-500 font-medium">Seri <span id="stat-draw" class="inline-block ml-2 font-bold text-primary-500 text-xs sm:text-sm">0</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Footer -->
-            <div class="flex items-center justify-center px-6 py-3 bg-white/70 backdrop-blur-md border-t border-gray-200/60">
-                <button class="px-6 py-2.5 bg-white/80 backdrop-blur-sm border border-gray-200 text-slate-600 font-medium text-sm rounded-xl hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/30 transition-all duration-200 flex items-center gap-2" id="back-menu">
-                    <svg viewBox="0 0 24 24" class="w-4 h-4 stroke-current fill-none stroke-2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-white/70 backdrop-blur-md border-t border-gray-200/60">
+                <button class="px-4 sm:px-6 py-2 sm:py-2.5 bg-white/80 backdrop-blur-sm border border-gray-200 text-slate-600 font-medium text-xs sm:text-sm rounded-lg sm:rounded-xl hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/30 transition-all duration-200 flex items-center gap-2" id="back-menu">
+                    <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-current fill-none stroke-2"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     Kembali
                 </button>
             </div>
@@ -151,5 +143,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
     <script src="js/lstm.js"></script>
     <script src="js/app.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
