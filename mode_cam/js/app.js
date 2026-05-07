@@ -142,6 +142,7 @@
 
     try {
       await gestureModel.loadModel('js');
+      if (textInfo) textInfo.textContent = 'Memuat Model Gestur...';
       if (textInfo) textInfo.textContent = 'Semua Siap Ayok Mulai!';
       if (buttonOpenCamera) buttonOpenCamera.disabled = false;
     } catch (error) {
