@@ -134,7 +134,7 @@
     try {
       if (textInfo) textInfo.textContent = 'Memuat Mediapipe...';
       await detector.initialize();
-      if (textInfo) textInfo.textContent = 'Memuat Tensorflow Js...';
+      if (textInfo) textInfo.textContent = 'Memuat Tensorflow.Js...';
     } catch (error) {
       if (textInfo) textInfo.textContent = 'GAGAL: ' + error.message;
       return;
