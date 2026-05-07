@@ -149,7 +149,7 @@
     try {
       if (textInfo) textInfo.textContent = 'Memuat Mediapipe...';
       await detector.initialize();
-      if (textInfo) textInfo.textContent = 'Memuat Model...';
+      if (textInfo) textInfo.textContent = 'Memuat Tensorflow.Js...';
     } catch (error) {
       if (textInfo) textInfo.textContent = 'GAGAL: ' + error.message;
       return;
@@ -157,14 +157,14 @@
 
     try {
       await gestureModel.loadModel('js');
-      if (textInfo) textInfo.textContent = 'MEMUAT MODEL GESTUR...';
+      if (textInfo) textInfo.textContent = 'Memuat Model Gestur...';
     } catch (error) {
       if (textInfo) textInfo.textContent = 'GAGAL MODEL: ' + error.message;
       return;
     }
 
     try {
-      if (textInfo) textInfo.textContent = 'MEMUAT AI...';
+      if (textInfo) textInfo.textContent = 'Memuat model Lstm...';
       lstmModel = new LSTMPredictor();
       const loaded = await lstmModel.loadModel();
       if (loaded) {
